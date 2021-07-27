@@ -1,13 +1,25 @@
 from selenium import webdriver
+import unittest
 
 PATH="C:\Program Files (x86)\chromedriver.exe"
 
-options = webdriver.ChromeOptions()
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-browser = webdriver.Chrome(executable_path=PATH, options=options)
-browser.get("http://localhost:8000")
+class NewVisitorTest(unittest.TestCase):
+  def setUp(self) -> None:
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-assert 'To Do' in browser.title, "Browser title was " + browser.title
+    self.browser = webdriver.Chrome(executable_path=PATH, options=options)
+  def tearDown(self) -> None:
+    self.browser.quit()
+  def test_can_start_a_list_and_retrieve_it_later(self):
+    # John listen about new cool to-do app. He goes 
+    # to check page
+    self.browser.get('http://localhost:8000')
 
-browser.quit()
+    # She notices the page title
+    self.assertIn("To-Do", self.browser.title)
+    self.fail("Finish the test")
+  
+if __name__ == "__main__":
+  unittest.main(warnings="ignore")
