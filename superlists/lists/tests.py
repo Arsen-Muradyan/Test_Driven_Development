@@ -24,10 +24,10 @@ class HomePageTest(TestCase):
     new_item = Item.objects.first()
     self.assertEqual(new_item.text, 'A new list item')
     
-  def test_can_redirect_after_POST(self):
+  def test_redirects_after_POST(self):
     response = self.client.post('/', data={'item_text': 'A new list item'})
     self.assertEqual(response.status_code, 302)
-    self.assertEqual(response['location'], '/')
+    self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
   def test_showing_multpile_items_in_table(self):
     Item.objects.create(text="Item one")
     Item.objects.create(text="Item two")
